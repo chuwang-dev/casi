@@ -1,74 +1,12 @@
-# Node.js dependencies and debug logs
-node_modules/
+node_modules
 npm-debug.log
-yarn-debug.log
-
-# Build outputs
-build/
-dist/
-out/
-
-# Test and debug artifacts
-test/
-tests/
-debug/
-*.log
-
-# IDE/editor files
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Version control
-.git/
+.env
+.git
 .gitignore
-.svn/
-.hg/
-
-# Environment and secrets
-.env*
-*.env
-*.pem
-*.key
-*.crt
-config.local.*
-*.local.yml
-
-# Temporary and local files
-tmp/
-temp/
-*.tmp
-.local/
-local/
-
-# Documentation
-README*
-*.md
-docs/
-
-# Docker files
-Dockerfile*
-docker-compose*
-
-# Project-specific
-logs/
-uploads/
-public/
-
-# Ignore empty directories (if not needed)
-**/.gitkeep
-
-# Ignore example files
-*.example
-
-# Ignore configuration backups
-*.conf~
-
-# Ignore frontend build config (if not needed in container)
-postcss.config.js
-tailwind.config.js
-vite.config.js
-
-# Ignore backend scripts (if not needed in container)
-src/scripts/
+README.md
+.vscode
+.idea
+coverage
+.DS_Store
+uploads/*
+!uploads/.gitkeep
