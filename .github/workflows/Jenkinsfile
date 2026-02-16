@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building Afrimart Application...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running Tests...'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+    }
+}
