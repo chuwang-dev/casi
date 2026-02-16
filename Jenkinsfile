@@ -1,23 +1,34 @@
 pipeline {
     agent any
 
+    environment {
+        COMPOSE_PROJECT_NAME = "afrimart"
+    }
+
     stages {
 
-        stage('Clone Repository') {
+        stage('Verify Docker') {
+            steps {
+                sh 'docker --version'
+                sh 'docker compose version'
+            }
+        }
+
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
         }
 
-        stage('Build Docker Images') {
+        stage('Stop Existing Containers') {
             steps {
-                sh 'docker compose build'
+                sh 'docker compose down || true'
             }
         }
 
-        stage('Stop Old Containers') {
+        stage('Build Images') {
             steps {
-                sh 'docker compose down'
+                sh 'docker compose build --no-cache'
             }
         }
 
@@ -27,5 +38,19 @@ pipeline {
             }
         }
 
+        stage('Verify Running Containers') {
+            steps {
+                sh 'docker ps'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Afrimart deployment successful!'
+        }
+        failure {
+            echo '❌ Deployment failed!'
+        }
     }
 }
