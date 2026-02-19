@@ -5,12 +5,15 @@ pipeline {
         COMPOSE_PROJECT_NAME = "afrimart"
     }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     stages {
 
-        stage('Verify Docker') {
+        stage('Clean Workspace') {
             steps {
-                sh 'docker --version'
-                sh 'docker compose version'
+                cleanWs()
             }
         }
 
@@ -20,13 +23,29 @@ pipeline {
             }
         }
 
+        stage('Verify Tools') {
+            steps {
+                sh 'echo "Checking Git..."'
+                sh 'git --version'
+
+                sh 'echo "Checking Docker..."'
+                sh 'docker --version'
+
+                sh 'echo "Checking Docker Compose..."'
+                sh 'docker compose version'
+
+                sh 'echo "Checking Buildx..."'
+                sh 'docker buildx version || true'
+            }
+        }
+
         stage('Stop Existing Containers') {
             steps {
                 sh 'docker compose down || true'
             }
         }
 
-        stage('Build Images') {
+        stage('Build Docker Images') {
             steps {
                 sh 'docker compose build --no-cache'
             }
@@ -38,7 +57,7 @@ pipeline {
             }
         }
 
-        stage('Verify Running Containers') {
+        stage('Show Running Containers') {
             steps {
                 sh 'docker ps'
             }
@@ -50,7 +69,7 @@ pipeline {
             echo '✅ Afrimart deployment successful!'
         }
         failure {
-            echo '❌ Deployment failed!'
+            echo '❌ Build failed. Check logs above.'
         }
     }
 }
